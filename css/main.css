@@ -1,0 +1,49 @@
+body {
+  text-align: center;
+  background-color: black;
+  color: white;
+}
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+.cell {
+  border: 1px white solid;
+  width: 30px;
+  height: 30px;
+}
+.earth {
+  background-color: rgb(124, 32, 32);
+}
+
+.modal {
+  background-color: rgb(235, 253, 208);
+  border: 5px solid rgb(255, 255, 255);
+  color: rgb(110, 110, 254);
+  border-radius: 10px;
+  width: 300px;
+  padding: 20px;
+  position: absolute;
+  top: 300px;
+  left: calc(50% - 175px);
+}
+
+.modal .restart-btn {
+  cursor: pointer;
+  background-color: rgb(236, 197, 236);
+  border: none;
+  border-radius: 50%;
+  padding: 11px;
+  transition: 0.2s;
+}
+
+.modal .restart-btn:hover {
+  background-color: rgb(210, 159, 210);
+  font-size: 14px;
+}
+
+.hide {
+  display: none;
+}
