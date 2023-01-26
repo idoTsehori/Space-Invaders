@@ -1,11 +1,12 @@
 'use strict';
-// Returns a new cell object. e.g.: {type: SKY, gameObject: ALIEN}
+
 function createCell(gameObject = null) {
   return {
     type: SKY,
     gameObject: gameObject,
   };
 }
+
 function getElCell(pos) {
   return document.querySelector(`[data-i='${pos.i}'][data-j='${pos.j}']`);
 }
@@ -32,15 +33,60 @@ function copyMat(mat) {
   }
   return newMat;
 }
-function newMat(board) {
-  var newBoard = [];
-  for (var i = 0; i < board.length; i++) {
-    newBoard[i] = [];
-    for (var j = 0; j < board[0].length; j++) {
-      newBoard[i][j] = createCell();
+
+function KillNegs(board, cellI, cellJ, pos) {
+  for (var i = cellI - 1; i <= cellI + 1; i++) {
+    if (i < 0 || i >= board.length) continue;
+    for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+      if (i === cellI && j === cellJ) continue;
+      if (j < 0 || j >= board[0].length) continue;
+
+      var currCell = board[i][j];
+      if (currCell.gameObject === ALIEN) {
+        gGame.aliensCount--;
+        var currCellElement = gBoard[pos.i][pos.j].gameObject;
+        if (currCellElement === ALIEN) return;
+        // renderCell({ i, j }, '💥');
+
+        // setTimeout(() => {
+        if (currCellElement === ALIEN) return;
+
+        updateCell({ i, j });
+
+        if (!gGame.aliensCount) {
+          gGame.isWin = true;
+          gameOver();
+        }
+        console.log(gBoard);
+        // }, 100);
+
+        updateScore(20);
+      }
     }
   }
-  return newBoard;
+}
+
+function playSound(path) {
+  var sound = new Audio(path);
+  sound.play();
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+}
+
+function getFistRowEmptyJ() {
+  var randomJ = [];
+  for (let j = 0; j < gBoard[0].length; j++) {
+    var currCell = gBoard[0][j];
+    if (!currCell.gameObject) randomJ.push(j);
+  }
+  if (!gBoard.length) return null;
+  var randidx = getRandomInt(0, randomJ.length);
+  var randpos = randomJ[randidx];
+  return randpos;
 }
 
 // function shiftBoardRight(board, fromI, toI) {

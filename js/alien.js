@@ -12,7 +12,7 @@ var gAliensBottomRowIdx = 2;
 var gIsAlienFreeze;
 var gMovingToRight;
 var gAliensGotToTheWall;
-
+console.log('lalala2');
 function createAliens(board) {
   for (var i = 0; i < ALIENS_ROW_COUNT; i++) {
     for (var j = 0; j < ALIENS_ROW_LENGTH; j++) {
@@ -23,21 +23,27 @@ function createAliens(board) {
 }
 
 function handleAlienHit(pos) {
-  // updateCell(pos);
-  renderCell(pos, '💥');
+  if (gIsSuperShoot) {
+    KillNegs(gBoard, pos.i, pos.j, pos);
+    gIsSuperShoot = false;
+    return;
+  }
   gGame.aliensCount--;
+  var currCellElement = gBoard[pos.i][pos.j].gameObject;
+  if (currCellElement === ALIEN) return;
+
+  renderCell(pos, '💥');
 
   setTimeout(() => {
-    // renderCell(pos, '');
     updateCell(pos);
     if (!gGame.aliensCount) {
       gGame.isWin = true;
       gameOver();
     }
-  }, 20);
-
-  console.log(gGame.aliensCount);
+  }, 100);
+  console.log(gBoard);
   updateScore(20);
+  console.log(gGame.aliensCount);
   // Check If there's no Aliens on board:
 }
 
@@ -95,13 +101,17 @@ function shiftBoardDown(board, fromI, toI) {
       if (currCell.gameObject !== ALIEN) continue;
       // Update Current cell
       newBoard[i][j].gameObject = null;
-
-      if (newBoard[i + 1].gameObject === HERO) {
-        checkLostGame();
+      var nextCell = newBoard[i + 1][j];
+      // Check Lose:
+      if (
+        nextCell.gameObject === HERO ||
+        getElCell({ i: i + 1, j: j }).classList.contains('earth')
+      ) {
+        gameOver();
         return;
       }
       // Update next cell
-      newBoard[i + 1][j].gameObject = ALIEN;
+      nextCell.gameObject = ALIEN;
     }
   }
   gAliensTopRowIdx++;
@@ -111,10 +121,6 @@ function shiftBoardDown(board, fromI, toI) {
   renderBoard(gBoard);
   return;
 }
-
-// runs the interval for moving aliens side to side and down
-// it re-renders the board every time
-// when the aliens are reaching the hero row - interval stops
 
 function moveAliens() {
   if (gIsAlienFreeze) return;
@@ -156,5 +162,6 @@ function moveAliens() {
 
 function checkLostGame() {
   clearInterval(gIntervalAliens);
+
   console.log('You Lose!');
 }
