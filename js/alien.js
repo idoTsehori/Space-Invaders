@@ -12,7 +12,20 @@ var gAliensBottomRowIdx = 2;
 var gIsAlienFreeze;
 var gMovingToRight;
 var gAliensGotToTheWall;
-console.log('lalala2');
+var gHideFireTimeout;
+var gPosOnFire;
+
+function gHideFire() {
+  if (gPosOnFire) updateCell(gPosOnFire);
+  gPosOnFire = null;
+  // if (!gGame.aliensCount) {
+  //   gGame.isWin = true;
+  //   gameOver();
+  // }
+  checkLostGame();
+  if (gGame.isWin) gameOver();
+}
+
 function createAliens(board) {
   for (var i = 0; i < ALIENS_ROW_COUNT; i++) {
     for (var j = 0; j < ALIENS_ROW_LENGTH; j++) {
@@ -28,23 +41,16 @@ function handleAlienHit(pos) {
     gIsSuperShoot = false;
     return;
   }
-  gGame.aliensCount--;
+  // gGame.aliensCount--;
   var currCellElement = gBoard[pos.i][pos.j].gameObject;
   if (currCellElement === ALIEN) return;
 
   renderCell(pos, '💥');
+  gPosOnFire = pos;
 
-  setTimeout(() => {
-    updateCell(pos);
-    if (!gGame.aliensCount) {
-      gGame.isWin = true;
-      gameOver();
-    }
-  }, 100);
+  gHideFireTimeout = setTimeout(() => gHideFire(), 100);
   console.log(gBoard);
   updateScore(20);
-  console.log(gGame.aliensCount);
-  // Check If there's no Aliens on board:
 }
 
 function shiftBoardRight(board, fromI, toI) {
@@ -124,44 +130,27 @@ function shiftBoardDown(board, fromI, toI) {
 
 function moveAliens() {
   if (gIsAlienFreeze) return;
+  /* to maybe remove
+    check if there is timeout (someone on fire)
+      if yes -> cleanup and do what timeout was supposed to do
+      if no -> don't do anything 
+  end */
+  if (gHideFireTimeout) {
+    clearTimeout(gHideFireTimeout);
+    gHideFire();
+  }
 
   if (gAliensGotToTheWall) shiftBoardDown(gBoard, gAliensTopRowIdx, gAliensBottomRowIdx);
   else if (gMovingToRight) shiftBoardRight(gBoard, gAliensTopRowIdx, gAliensBottomRowIdx);
   else shiftBoardLeft(gBoard, gAliensTopRowIdx, gAliensBottomRowIdx);
 }
-// function moveAliens() {
-//   if (gIsAlienFreeze) return;
-//   if (gMovingToRight) {
-//     gIntervalAliens = setInterval(
-//       shiftBoardRight,
-//       1000,
-//       gBoard,
-//       gAliensTopRowIdx,
-//       gAliensBottomRowIdx
-//     );
-//     if (gAliensGotToTheWall) {
-//       clearInterval(gIntervalAliens);
-//       gIntervalAliens = undefined;
-//     }
-//   }
-//   if (gAliensGotToTheWall) {
-//     console.log('yoyu');
-//     gIntervalAliens = setInterval(
-//       shiftBoardDown,
-//       1000,
-//       gBoard,
-//       gAliensTopRowIdx,
-//       gAliensBottomRowIdx
-//     );
-//   }
-
-// if (gMovingToRight) shiftBoardRight(newBoard, fromI, toI);
-//   renderBoard(newBoard);
-//   gBoard = newBoard;
-// }
 
 function checkLostGame() {
-  clearInterval(gIntervalAliens);
-
-  console.log('You Lose!');
+  for (var i = 0; i < gBoard.length; i++) {
+    for (var j = 0; j < gBoard[0].length; j++) {
+      var currCell = gBoard[i][j];
+      if (currCell.gameObject === ALIEN) return;
+    }
+  }
+  gGame.isWin = true;
 }

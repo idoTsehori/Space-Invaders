@@ -1,5 +1,6 @@
 'use strict';
 
+// Game Elements Symbols:
 const BOARD_SIZE = 14;
 const ALIENS_ROW_LENGTH = 8;
 const ALIENS_ROW_COUNT = 3;
@@ -12,10 +13,15 @@ const CANDY = '🍭';
 const EMPTY = '';
 const EARTH = 'EARTH';
 
-var gCandyInterval;
-// Matrix of cell objects. e.g.: {type: SKY, gameObject: ALIEN}
-var gBoard;
+// Model:
 var gGame;
+var gBoard;
+
+// Intervals on Board:
+var gCandyInterval;
+
+// BackGround Music:
+var music = new Audio('sounds/Background Music.mp3');
 
 function play(elBtn) {
   elBtn.innerHTML = 'Re-Start';
@@ -23,6 +29,8 @@ function play(elBtn) {
 }
 
 function init() {
+  music.volume = 0.2;
+  music.play();
   // Restart Game Model:
   gGame = createGame();
   // Restart Alien Model
@@ -46,10 +54,11 @@ function init() {
   createHero(gBoard);
   createAliens(gBoard);
   renderBoard(gBoard);
-  //
-  setInterval(moveAliens, ALIEN_SPEED);
 
-  var candyInterval = setInterval(showCandy, 10000);
+  //
+  //
+  gIntervalAliens = setInterval(moveAliens, ALIEN_SPEED);
+  gCandyInterval = setInterval(showCandy, 10000);
 }
 
 function createGame() {
@@ -121,5 +130,20 @@ function showCandy() {
   // After 5 secs hide candy:
   setTimeout(() => {
     updateCell({ i: 0, j: randomJ });
+  }, 5000);
+  console.log(gBoard);
+}
+
+function handleCandyHit(candyPos) {
+  // Play sound:
+  playSound('sounds/candy-hit.mp3');
+  // Update Score +50
+  updateScore(50);
+  // Remove candy cell
+  updateCell({ i: candyPos.i, j: candyPos.j });
+  // Freeze Aliens for 5 secs
+  gIsAlienFreeze = true;
+  setTimeout(() => {
+    gIsAlienFreeze = false;
   }, 5000);
 }

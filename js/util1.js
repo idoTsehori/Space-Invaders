@@ -59,7 +59,7 @@ function KillNegs(board, cellI, cellJ, pos) {
         }
         console.log(gBoard);
         // }, 100);
-
+        checkLostGame();
         updateScore(20);
       }
     }
