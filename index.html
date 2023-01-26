@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Space Invaders</title>
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap"
-      rel="stylesheet" />
-  </head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Space Invaders</title>
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet" />
+	</head>
 
-  <body onkeydown="onKeyDown(event)">
-    <h1 class="title">Space Invaders 🐱‍🏍</h1>
+	<body onkeydown="onKeyDown(event)">
+		<h1 class="title">Space Invaders 🐱‍🏍</h1>
 
-    <!-- Options: -->
-    <div class="btn-options">
-      <button class="btn play-btn" onclick="play(this)">Start</button>
-      <button class="btn freeze-btn" onclick=" gIsAlienFreeze = !gIsAlienFreeze">
-        Freeze Game
-      </button>
-    </div>
+		<!-- Options: -->
+		<div class="btn-options">
+			<button class="btn play-btn" onclick="play(this)">Start</button>
+			<button class="btn freeze-btn" onclick=" gIsAlienFreeze = !gIsAlienFreeze">Freeze Game</button>
+		</div>
 
-    <!-- Score: -->
-    <h2 class="score-msg hide">
-      Score: <span class="score-count"><!--Render Score--></span>
-    </h2>
-    <table>
-      <tbody class="board">
-        <!-- Render board here -->
-      </tbody>
-      <!-- Modal:  -->
-      <div class="modal hide">
-        <h2 class="user-msg"></h2>
-        <button class="restart-btn" onclick="init()">Restart</button>
-      </div>
-    </table>
-    <script src="js/util1.js"></script>
-    <script src="js/game.js"></script>
-    <script src="js/hero.js"></script>
-    <script src="js/alien.js"></script>
-  </body>
+		<!-- Score: -->
+		<h2 class="score-msg hide">
+			Score: <span class="score-count"><!--Render Score--></span>
+		</h2>
+		<table>
+			<tbody class="board">
+				<!-- Render board here -->
+			</tbody>
+			<!-- Modal:  -->
+			<div class="modal hide">
+				<h2 class="user-msg"></h2>
+				<button class="restart-btn" onclick="init()">Restart</button>
+			</div>
+		</table>
+		<script src="js/util1.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/hero.js"></script>
+		<script src="js/alien.js"></script>
+	</body>
 </html>
