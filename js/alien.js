@@ -1,4 +1,5 @@
 'use strict';
+
 const ALIEN_SPEED = 500;
 var gIntervalAliens;
 
@@ -18,10 +19,6 @@ var gPosOnFire;
 function gHideFire() {
   if (gPosOnFire) updateCell(gPosOnFire);
   gPosOnFire = null;
-  // if (!gGame.aliensCount) {
-  //   gGame.isWin = true;
-  //   gameOver();
-  // }
   checkLostGame();
   if (gGame.isWin) gameOver();
 }
@@ -49,7 +46,6 @@ function handleAlienHit(pos) {
   gPosOnFire = pos;
 
   gHideFireTimeout = setTimeout(() => gHideFire(), 100);
-  console.log(gBoard);
   updateScore(20);
 }
 
@@ -68,8 +64,13 @@ function shiftBoardRight(board, fromI, toI) {
       // Update Current cell
       newBoard[i][j].gameObject = null;
 
+      var nextCell = newBoard[i][j + 1];
+      if (nextCell.gameObject === HERO) {
+        gameOver();
+        return;
+      }
       // Update next cell
-      newBoard[i][j + 1].gameObject = ALIEN;
+      nextCell.gameObject = ALIEN;
     }
   }
   gBoard = newBoard;
@@ -90,9 +91,13 @@ function shiftBoardLeft(board, fromI, toI) {
       }
       // Update Current cell
       newBoard[i][j].gameObject = null;
-
+      var nextCell = newBoard[i][j - 1];
+      if (nextCell.gameObject === HERO) {
+        gameOver();
+        return;
+      }
       // Update next cell
-      newBoard[i][j - 1].gameObject = ALIEN;
+      nextCell.gameObject = ALIEN;
     }
   }
   gBoard = newBoard;

@@ -4,8 +4,9 @@ const SUPER_MODE_SPEED = 25;
 var gIsSuperShoot = false;
 var gIsSuperMode = false;
 var gShootInterval;
+var gCurrentShootMode;
 
-var gHero = { pos: { i: 12, j: 5 }, isShoot: false };
+var gHero;
 
 // creates the hero and place it on board
 function createHero(board) {
@@ -15,14 +16,18 @@ function createHero(board) {
 // Handle game keys
 function onKeyDown(ev) {
   if (!gGame.isOn) return;
-  console.log(ev.code);
   if (ev.code === 'ArrowRight') moveHero(1);
   else if (ev.code === 'ArrowLeft') moveHero(-1);
   else if (ev.code === 'Space') shoot();
   else if (ev.code === 'KeyN') {
+    if (!gGame.superShootCount) return;
+    updateSuperShootCount(1);
     gIsSuperShoot = true;
     shoot();
   } else if (ev.code === 'KeyX') {
+    // if there's no super mode -> return
+    if (!gGame.superModeCount) return;
+    updateSuperModeCount(1);
     gIsSuperMode = true;
     shoot();
   }
@@ -39,21 +44,26 @@ function moveHero(dir) {
   updateCell(gHero.pos);
   // UPDATE  MODEL & DOM NEW CELL
   gHero.pos = nextCellPos;
+  if (gBoard[nextCellPos.i][nextCellPos.j].gameObject === ALIEN) {
+    gameOver();
+    return;
+  }
   updateCell(gHero.pos, HERO);
-  console.log(gBoard);
 }
 
 // Sets an interval for shutting (blinking) the laser up towards aliens
 function shoot() {
   if (gHero.isShoot) return;
   gHero.isShoot = true;
+
+  gCurrentShootMode = gIsSuperMode ? SUPER_MODE_SPEED : LASER_SPEED;
+
   var shootPos = { i: gHero.pos.i, j: gHero.pos.j };
-  gShootInterval = setInterval(blinkLaser, LASER_SPEED, shootPos);
+  gShootInterval = setInterval(blinkLaser, gCurrentShootMode, shootPos);
 }
 
 // renders a LASER at specific cell for short time and removes it
 function blinkLaser(pos) {
-  var currentShoot = gIsSuperMode ? LASER_SPEED : SUPER_MODE_SPEED;
   pos.i--;
 
   var HitElement = gBoard[pos.i][pos.j].gameObject;
@@ -81,5 +91,5 @@ function blinkLaser(pos) {
     }
 
     updateCell(pos);
-  }, currentShoot - 17);
+  }, gCurrentShootMode - 15);
 }

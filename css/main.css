@@ -3,50 +3,80 @@ body {
   text-align: center;
   background-color: black;
   color: white;
-  /* background: url(/imgs/space.jpg); */
-  /* background: url('https://images.unsplash.com/photo-1465101162946-4377e57745c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1178&q=80'); */
   background: url('https://img.freepik.com/free-vector/color-seamless-space-pattern_102902-2360.jpg?w=900&t=st=1674757630~exp=1674758230~hmac=6335c3ce2be88ad8b27dfaffb7679f55fbe6fdcd1bdbf062d6a1602ae8af9840');
-  /* background: cover; */
-  /* background: no-repeat; */
   font-size: larger;
 }
 
 .title {
-  font-size: 58px;
+  font-size: 66px;
+  height: 47px;
+  transition: 0.5s;
 }
 
+/* Buttons: */
 .btn {
   border: none;
   border-radius: 50%;
-  padding: 10px;
+  padding: 12px;
   background-color: rgb(203, 243, 230);
-  transition: 0.5s;
+  transition: 0.3s;
   cursor: pointer;
 }
 .btn:hover {
-  background-color: rgb(164, 216, 199);
+  background-color: rgb(149, 202, 184);
+  font-size: 14px;
 }
 .freeze-btn {
-  display: block;
   margin: auto;
-  margin-top: 10px;
+  margin: 15px;
+  padding: 14px;
 }
 
+/* Game Detalis: */
+.game-details {
+  background-color: #757575;
+  opacity: 0.9;
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 530px;
+  color: #bface2;
+  font-size: larger;
+  margin-bottom: 7px;
+}
+
+.score-msg {
+  display: inline-block;
+  margin-right: 25px;
+}
+
+.super-mode {
+  display: inline-block;
+  margin-left: 15px;
+}
+.super-shoot {
+  display: inline;
+  margin-left: 25px;
+}
+
+/* Board: */
 table {
   margin: auto;
   border-collapse: collapse;
+  opacity: 0.9;
 }
 
 .cell {
-  border: 1px white solid;
-  width: 30px;
-  height: 30px;
-  background-color: rgb(0, 0, 0);
+  /* border: 1px white solid; */
+  width: 38px;
+  height: 38px;
+  background-color: rgb(108, 112, 116);
 }
 .earth {
   background-color: rgb(124, 32, 32);
 }
 
+/* Modal: */
 .modal {
   background-color: rgb(235, 253, 208);
   border: 5px solid rgb(255, 255, 255);
@@ -57,6 +87,7 @@ table {
   position: absolute;
   top: 300px;
   left: calc(50% - 175px);
+  opacity: 1;
 }
 
 .modal .restart-btn {
@@ -71,6 +102,15 @@ table {
 .modal .restart-btn:hover {
   background-color: rgb(210, 159, 210);
   font-size: 14px;
+}
+
+/* Footer: */
+footer {
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: inline-block;
+  position: absolute;
+  top: 910px;
 }
 
 .hide {

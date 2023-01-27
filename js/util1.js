@@ -23,6 +23,21 @@ function updateScore(diff) {
   elSpan.innerText = gGame.score;
 }
 
+function updateSuperModeCount(diff) {
+  // update model and dom
+  gGame.superModeCount -= diff;
+  var elSpan = document.querySelector('.super-mode span');
+  elSpan.innerHTML = gGame.superModeCount;
+  playSound('sounds/super cat.wav');
+}
+
+function updateSuperShootCount(diff) {
+  // update model and dom
+  gGame.superShootCount -= diff;
+  var elSpan = document.querySelector('.super-shoot span');
+  elSpan.innerHTML = gGame.superShootCount;
+}
+
 function copyMat(mat) {
   var newMat = [];
   for (var i = 0; i < mat.length; i++) {
@@ -57,13 +72,13 @@ function KillNegs(board, cellI, cellJ, pos) {
           gGame.isWin = true;
           gameOver();
         }
-        console.log(gBoard);
         // }, 100);
         checkLostGame();
         updateScore(20);
       }
     }
   }
+  updateCell({ i: pos.i, j: pos.j });
 }
 
 function playSound(path) {

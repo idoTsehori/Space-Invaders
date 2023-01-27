@@ -33,6 +33,9 @@ function init() {
   music.play();
   // Restart Game Model:
   gGame = createGame();
+  // Restart Hero Model:
+  gHero = { pos: { i: 12, j: 5 }, isShoot: false };
+
   // Restart Alien Model
   gAliensTopRowIdx = 0;
   gAliensBottomRowIdx = 2;
@@ -40,20 +43,29 @@ function init() {
   gMovingToRight = true;
   gAliensGotToTheWall = false;
 
-  // Restart Dom:
-  document.querySelector('.modal').classList.add('hide');
-  document.querySelector('.score-msg').classList.remove('hide');
-  updateScore(0);
-
   // Clean Interval from prev game
   if (gShootInterval) clearInterval(gShootInterval);
-  if (gIntervalAliens) clearInterval(gShootInterval);
+  if (gIntervalAliens) clearInterval(gIntervalAliens);
   if (gCandyInterval) clearInterval(gCandyInterval);
 
   gBoard = createBoard(BOARD_SIZE);
   createHero(gBoard);
   createAliens(gBoard);
   renderBoard(gBoard);
+
+  // Restart Dom:
+  document.querySelector('.title').style.rotate = '0deg';
+  document.querySelector('.modal').classList.add('hide');
+  // Show Freeze Btn:
+  document.querySelector('.freeze-btn').classList.remove('hide');
+
+  // reStart score:
+  updateScore(0);
+  // Super Mode:
+  document.querySelector('.super-mode span').innerHTML = gGame.superModeCount;
+  // Super Shoot:
+  document.querySelector('.super-shoot span').innerHTML = gGame.superShootCount;
+  document.querySelector('.game-details').classList.remove('hide');
 
   //
   //
@@ -67,6 +79,8 @@ function createGame() {
     aliensCount: 0,
     score: 0,
     isWin: false,
+    superModeCount: 3,
+    superShootCount: 2,
   };
 }
 
@@ -118,8 +132,15 @@ function gameOver() {
   gIsAlienFreeze = true;
   clearInterval(gIntervalAliens);
   clearInterval(gCandyInterval);
+
   document.querySelector('.modal').classList.remove('hide');
-  document.querySelector('.modal h2').innerHTML = gGame.isWin ? 'You Won!🥳' : 'You Lost :(';
+  document.querySelector('.modal h2').innerHTML = gGame.isWin ? 'You Won!🥳' : 'You Lost ☠';
+  if (gGame.isWin) {
+    document.querySelector('.title').style.rotate = '360deg';
+    playSound('sounds/victory.wav');
+  } else {
+    playSound('sounds/lost game.wav');
+  }
 }
 
 function showCandy() {
@@ -131,12 +152,11 @@ function showCandy() {
   setTimeout(() => {
     updateCell({ i: 0, j: randomJ });
   }, 5000);
-  console.log(gBoard);
 }
 
 function handleCandyHit(candyPos) {
   // Play sound:
-  playSound('sounds/candy-hit.mp3');
+  playSound('sounds/candy-hit.wav');
   // Update Score +50
   updateScore(50);
   // Remove candy cell
@@ -146,4 +166,9 @@ function handleCandyHit(candyPos) {
   setTimeout(() => {
     gIsAlienFreeze = false;
   }, 5000);
+}
+
+function freezeGame(elBtn) {
+  gIsAlienFreeze = !gIsAlienFreeze;
+  elBtn.innerHTML = gIsAlienFreeze ? 'Unfreeze' : 'Freeze';
 }
