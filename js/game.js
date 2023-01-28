@@ -2,8 +2,8 @@
 
 // Game Elements Symbols:
 const BOARD_SIZE = 14;
-const ALIENS_ROW_LENGTH = 8;
-const ALIENS_ROW_COUNT = 3;
+var ALIENS_ROW_LENGTH;
+var ALIENS_ROW_COUNT;
 const HERO = '🤖';
 const ALIEN = '👽';
 const LASER = '⤊';
@@ -23,12 +23,12 @@ var gCandyInterval;
 // BackGround Music:
 var music = new Audio('sounds/Background Music.mp3');
 
-function play(elBtn) {
-  elBtn.innerHTML = 'Re-Start';
-  init();
+function play(elBtn, rowLength, rowCount, topIdx, bottomIdx) {
+  // elBtn.innerHTML = 'Re-Start';
+  init(rowLength, rowCount, topIdx, bottomIdx);
 }
 
-function init() {
+function init(rowLength, rowCount, topIdx, bottomIdx) {
   music.volume = 0.2;
   music.play();
   // Restart Game Model:
@@ -42,6 +42,10 @@ function init() {
   gIsAlienFreeze = false;
   gMovingToRight = true;
   gAliensGotToTheWall = false;
+  ALIENS_ROW_LENGTH = rowLength;
+  ALIENS_ROW_COUNT = rowCount;
+  gAliensTopRowIdx = topIdx;
+  gAliensBottomRowIdx = bottomIdx;
 
   // Clean Interval from prev game
   if (gShootInterval) clearInterval(gShootInterval);
@@ -51,14 +55,17 @@ function init() {
   gBoard = createBoard(BOARD_SIZE);
   createHero(gBoard);
   createAliens(gBoard);
+
   renderBoard(gBoard);
 
   // Restart Dom:
   document.querySelector('.title').style.rotate = '0deg';
   document.querySelector('.modal').classList.add('hide');
   document.querySelector('.start-modal').classList.add('hide');
+  document.querySelector('.play-btn').classList.add('hide');
   // Show Freeze Btn:
   document.querySelector('.freeze-btn').classList.remove('hide');
+  document.querySelector('.level-btn').classList.remove('hide');
 
   // reStart score:
   updateScore(0);

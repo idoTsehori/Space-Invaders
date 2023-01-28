@@ -12,6 +12,19 @@ body {
   height: 47px;
   transition: 0.5s;
 }
+/* levels */
+.level-btn button {
+  margin-left: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 15px;
+  background-color: rgb(236, 236, 218);
+  transition: 0.3s;
+  cursor: pointer;
+}
+.level-btn button:hover {
+  background-color: rgb(197, 197, 163);
+}
 
 /* Start information Modal: */
 .start-modal {

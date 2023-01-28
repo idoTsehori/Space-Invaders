@@ -18,7 +18,12 @@
 
     <!-- Options: -->
     <div class="btn-options">
-      <button class="btn play-btn" onclick="play(this)">Start</button>
+      <div class="level-btn hide">
+        <button onclick="play(this,8,3,0,2)">Easy</button>
+        <button onclick="play(this,9,5,0,4)">Medium</button>
+        <button onclick="play(this,10,8,0,7)">Expert!</button>
+      </div>
+      <button class="btn play-btn" onclick="play(this,8,3,0,2)">Start</button>
       <button class="btn freeze-btn hide" onclick=" freezeGame(this)">
         Freeze
       </button>
@@ -26,14 +31,17 @@
     <!-- Menu Modal -->
     <div class="start-modal">
       <h1>Welcome!</h1>
-      <h2>Your mission is to kill all the aliens before they land on on earth!</h2>
-      <h3>* Alien kill is 20 points to the score!👽</h3>
+      <h2>Your mission is to kill all the aliens before they land on earth!</h2>
+      <h3>* Alien kill adds 20 points to the score!👽</h3>
       <h3>* Keys ⬅ / ➡ to move the player left / right</h3>
       <h3>* 'SPACE' key to shoot</h3>
       <h3>* 'X' key to shoot super cat! 🐱‍🏍 (you have only 3 super cats each game)</h3>
       <h3>* 'N' key to super shoot! (you have only 2 super shoot each game)</h3>
       <h3>* If you hit the 🍭 - the aliens freeze for 5 seconds and gives you 50 points to the score!</h3>
     </div>
+
+
+
 
     <!-- Game Detalis: -->
     <div class="game-details hide">
@@ -58,7 +66,7 @@
     </table>
     <div class="modal hide">
       <h2 class="user-msg"></h2>
-      <button class="restart-btn" onclick="init()">Restart</button>
+      <button class="restart-btn" onclick="play(this,8,3,0,2)">Restart</button>
     </div>
 
     <!-- Footer: -->

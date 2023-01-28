@@ -7,8 +7,8 @@ var gIntervalAliens;
 // that we should shift (left, right, and bottom)
 // We need to update those when:
 // (1) shifting down and (2) last alien was cleared from row
-var gAliensTopRowIdx = 0;
-var gAliensBottomRowIdx = 2;
+var gAliensTopRowIdx;
+var gAliensBottomRowIdx;
 
 var gIsAlienFreeze;
 var gMovingToRight;
