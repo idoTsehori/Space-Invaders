@@ -56,6 +56,7 @@ function init() {
   // Restart Dom:
   document.querySelector('.title').style.rotate = '0deg';
   document.querySelector('.modal').classList.add('hide');
+  document.querySelector('.start-modal').classList.add('hide');
   // Show Freeze Btn:
   document.querySelector('.freeze-btn').classList.remove('hide');
 
